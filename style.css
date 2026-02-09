@@ -1,0 +1,617 @@
+:root {
+  --primary-color: #ff4d6d;
+  --secondary-color: #ff8fa3;
+  --bg-color: #ffe5ec;
+  --text-color: #590d22;
+  --white: #ffffff;
+  --font-heading: 'Dancing Script', cursive;
+  --font-body: 'Outfit', sans-serif;
+  --shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Sections */
+.screen {
+  min-height: 100vh;
+  /* Full viewport height for each section */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+  transition: opacity 0.8s ease-in-out;
+}
+
+/* Helper Class - Must override others */
+.hidden {
+  display: none !important;
+  opacity: 0;
+}
+
+/* Hero Section */
+#hero .content {
+  text-align: center;
+  z-index: 10;
+}
+
+#hero .title {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 30px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow);
+}
+
+.primary-btn {
+  background-color: var(--primary-color);
+  color: var(--white);
+  margin-top: 2rem;
+}
+
+.primary-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 77, 109, 0.5);
+}
+
+/* Timer */
+.countdown-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.time-box {
+  background: var(--white);
+  padding: 1.5rem;
+  border-radius: 15px;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+
+.time-box span:first-child {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.time-box .label {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 5px;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 30px;
+  text-align: center;
+  opacity: 0.7;
+  animation: bounce 2s infinite;
+}
+
+.scroll-indicator .arrow {
+  font-size: 1.5rem;
+  margin-top: 5px;
+}
+
+/* Gallery (Memories) */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 3rem;
+  max-width: 1000px;
+}
+
+.polaroid {
+  background: white;
+  padding: 15px 15px 40px 15px;
+  box-shadow: var(--shadow);
+  transform: rotate(-2deg);
+  transition: transform 0.3s;
+  width: 250px;
+}
+
+.polaroid:nth-child(even) {
+  transform: rotate(3deg);
+}
+
+.polaroid:hover {
+  transform: scale(1.1) rotate(0deg);
+  z-index: 5;
+}
+
+.polaroid .photo {
+  background: #eee;
+  width: 100%;
+  aspect-ratio: 1;
+  /* Square */
+  object-fit: cover;
+  display: block;
+}
+
+.polaroid .caption {
+  text-align: center;
+  margin-top: 15px;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--text-color);
+}
+
+/* Envelopes */
+.envelope-wrapper {
+  perspective: 1000px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.envelope {
+  position: relative;
+  width: 280px;
+  height: 200px;
+  background: #ff8fa3;
+  border-radius: 0 0 10px 10px;
+  box-shadow: var(--shadow);
+  transition: transform 0.5s;
+}
+
+.envelope:hover {
+  transform: translateY(-5px);
+}
+
+.front {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.pocket {
+  position: absolute;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 120px solid #ff4d6d;
+  border-radius: 0 0 10px 10px;
+  z-index: 20;
+}
+
+.flap {
+  position: absolute;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 140px solid #fb6f92;
+  transform-origin: top;
+  transition: transform 0.6s 0.2s, z-index 0.2s;
+  z-index: 30;
+}
+
+/* Open Animation */
+.envelope.open .flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+  /* Flap goes behind letter when open */
+}
+
+.envelope.open .letter {
+  transform: translateY(-100px);
+  z-index: 15;
+}
+
+.text {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.letter {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 260px;
+  height: 180px;
+  background: white;
+  border-radius: 5px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.6s 0.6s;
+  /* Delays letter slide out until flap opens */
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.letter p {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Game Section */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+canvas {
+  border: 4px solid var(--primary-color);
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  max-width: 100%;
+}
+
+#gameCanvas {
+  background: #fff0f3;
+}
+
+#scratchCanvas {
+  background: transparent;
+}
+
+.game-ui {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+#score-board {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
+
+#game-message {
+  font-size: 1.5rem;
+  color: #ff4d6d;
+  font-weight: bold;
+  animation: pulse 1s infinite;
+}
+
+/* Timeline styles */
+.timeline {
+  position: relative;
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  background-color: var(--primary-color);
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -3px;
+  border-radius: 3px;
+}
+
+.timeline-item {
+  padding: 10px 40px;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.timeline-item::after {
+  content: '❤️';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  right: -15px;
+  background-color: white;
+  border: 4px solid #ff9f55;
+  top: 15px;
+  border-radius: 50%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  left: 50%;
+}
+
+.left::after {
+  right: -19px;
+}
+
+.right::after {
+  left: -19px;
+}
+
+.content.glow-card {
+  padding: 20px;
+  background-color: white;
+  position: relative;
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+
+body.dark-mode .content.glow-card {
+  background-color: #2c3e50;
+  color: white;
+}
+
+/* Scratch Card Section */
+.scratch-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin-top: 20px;
+}
+
+.hidden-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  /* Behind canvas */
+}
+
+#scratchCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  /* On top */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="gold" stroke="black"/></svg>') 10 10, auto;
+  /* Gold coin cursor */
+}
+
+/* Dark Mode / Starry Night */
+body.dark-mode {
+  background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+  /* Night sky gradient */
+  color: #fff;
+}
+
+body.dark-mode .envelope,
+body.dark-mode .btn,
+body.dark-mode .polaroid {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  /* Glow effect */
+}
+
+body.dark-mode h1,
+body.dark-mode h2 {
+  color: #ffb7b2;
+  /* Softer pink for dark mode */
+}
+
+/* Theme Toggle Button */
+#theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  font-size: 24px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Stars */
+.star {
+  position: fixed;
+  background: white;
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+  animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    box-shadow: 0 0 2px white;
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 10px white;
+  }
+}
+
+/* Question Section */
+.cute-gif {
+  max-width: 200px;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow);
+}
+
+#question .buttons {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  position: relative;
+}
+
+.yes-btn {
+  background-color: #4cc9f0;
+  color: white;
+  min-width: 120px;
+}
+
+.no-btn {
+  background-color: #ef476f;
+  color: white;
+  min-width: 120px;
+  position: relative;
+  /* Needed for absolute movement logic if we change it, or transform */
+}
+
+/* Success Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fadeIn 0.5s;
+}
+
+.overlay-content {
+  background: white;
+  padding: 3rem;
+  border-radius: 20px;
+  text-align: center;
+  animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Animations */
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-10px);
+  }
+
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Background Hearts (Simple CSS implementation) */
+/* We can add this via JS or complicated CSS, keeping it simple for now in body bg */
