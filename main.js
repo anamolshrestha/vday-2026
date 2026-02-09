@@ -55,9 +55,6 @@ startBtn.addEventListener('click', () => {
     }, 50);
   });
 
-  // Ensure scratch card is drawn correctly now that it's visible
-  resetScratchCard();
-
   // Scroll to timer
   document.getElementById('timer').scrollIntoView({ behavior: 'smooth' });
 
@@ -181,11 +178,10 @@ setInterval(createHeart, 500);
 
 // Simple Confetti
 import { initGame } from './game.js';
-import { initScratchCard, initThemeToggle, resetScratchCard } from './features.js';
+import { initThemeToggle } from './features.js';
 
 // Initialize Game & Features
 initGame();
-initScratchCard();
 initThemeToggle();
 
 // ... existing code ...
